@@ -207,6 +207,12 @@ def login():
   
   return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
+@app.route('/', methods=["GET"])
+def home():
+  response = jsonify({
+    'message': 'Please try another endpoint'
+  })
+  return response
 
 # Spotify API
 
@@ -227,7 +233,7 @@ url = Request('GET','https://accounts.spotify.com/authorize', params={
 }).prepare().url
 
 
-@app.route('/', methods=["GET"])
+@app.route('/api/v1/spotify/route', methods=["GET"])
 def login_spotify():
 
   get_error_request = request.args.get('error')
