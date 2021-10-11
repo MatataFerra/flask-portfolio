@@ -2,15 +2,13 @@ import os
 import datetime
 import re
 import base64
-from time import timezone
 from urllib.parse import urlencode
 from requests import Request, post, get
+from waitress import serve
 
 import jwt
 
 from dotenv import load_dotenv
-import requests
-from werkzeug.datastructures import Headers
 load_dotenv()
 
 from flask import Flask, request, jsonify, Response, make_response, session
@@ -208,7 +206,7 @@ def login():
   return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
 @app.route('/', methods=["GET"])
-def home():
+def index():
   response = jsonify({
     'message': 'Please try another endpoint'
   })
@@ -315,4 +313,6 @@ def search_spotify(query):
 
 
 if __name__ == '__main__':
-  app.run(debug=False)
+  
+    serve(app, host="0.0.0.0", port=8080)
+    #app.run(debug=False)
